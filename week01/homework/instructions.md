@@ -28,7 +28,7 @@ The in-class exercises and homework assignments will be distributed via GitHub.
     The main commands you should understand are `clone`, `fetch`, `merge`, `add`, `commit`, `status`, `push`, `pull`.
 
 2.  [Create](https://github.com/new) a new, **private** repo. Do **not** select
-    any options under "repository template" or "initialize this repository
+    any options under "repository template", "quick setup", or "initialize this repository
     with."
 
 3.  Clone your repo:
@@ -37,6 +37,7 @@ The in-class exercises and homework assignments will be distributed via GitHub.
     $ git clone git@github.com:YOURUSERNAME/YOURREPO.git
     $ cd YOURREPO
     ```
+    You may get a warning about closing an empty repository. This is expected.
 
 4.  Connect to our class repo:
 
@@ -46,7 +47,7 @@ The in-class exercises and homework assignments will be distributed via GitHub.
     ```
 
 5.  Merge the changes and push them back to GitHub:
-
+tack ghci Exercises.hs
     ```
     $ git merge upstream/main
     $ git push
@@ -70,10 +71,10 @@ The in-class exercises and homework assignments will be distributed via GitHub.
 We will manage Haskell versions and packages using Stack.
 
 1. Install [GHCup](https://www.haskell.org/ghcup/) by following the instructions
-   on the homepage.
+   for your machine on the homepage.
 
-   Make sure to choose "yes" when asked about installing the Haskell Language
-   Server and better integration with Stack.
+   **Make sure to choose "yes" when asked about installing the Haskell Language
+   Server and better integration with Stack, and if you want the installation location to PATH.**
 
 3. At this point, you should be able to run Haskell programs! (You may need to
    restart the terminal for the installation to take effect.)
@@ -88,6 +89,7 @@ We will manage Haskell versions and packages using Stack.
    Then, input `main` and press enter — this evaluates `main`. It should print
    out "You have installed Haskell!" There should also be an error message
    saying that a test failed; we will fix this in the last part.
+   You can use :q to quit the REPL.
 
 ### Step 2: VSCode
 
@@ -98,17 +100,16 @@ We will use Visual Studio Code as our editor.
 
 2.  Within VSCode, install the extensions named `Haskell` and `haskell-linter`.
 
-3.  Open the command palette (`Ctrl/Cmd-Shift-P`) and go to "Preferences: Open
-    User Settings (JSON)." Paste in these settings:
+3.  Open the command palette (`Ctrl-Shift-P` or `Cmd-Shift-P`) and go to
+    "Preferences: Open User Settings (JSON)." Paste in these settings:
 
     ```
-    {
     "editor.formatOnSave": true,
     "haskell.hlint.logLevel": "warn",
     "haskell.hlint.run": "onSave",
     "haskell.formattingProvider": "ormolu",
     "haskell.toolchain": {
-        "hls": "2.5.0.0",
+        "hls": "2.9.0.1",
         "ghc": null,
         "cabal": null,
         "stack": null
@@ -117,14 +118,16 @@ We will use Visual Studio Code as our editor.
         "PATH": "${HOME}/.ghcup/bin:$PATH"
     },
     "haskell.manageHLS": "GHCup"
-    }
     ```
 
-4.  Open the `homework` folder for `week00` in VSCode.
+    If you have used VSCode before, you may have other settings already in this file. Do not overwrite these unless they are duplicates.
+    If you have not used VSCode before, you may need to enclose the above settings in `{ }`.
+
+4.  Open the `homework` folder for `week01` in VSCode.
 
     You must have this folder (`homework`) open — not a parent directory (such
     as `week00`) or an individual file (such as `Exercises.hs`). The top label
-    in the file explorer should be "HOMEWORK."
+    in the file explorer should be "homework", the folder with a .cabal file in it.
 
     **Important**: Please closely read the above instruction!
 
@@ -150,6 +153,9 @@ We will use Visual Studio Code as our editor.
 
     Otherwise, problems often go away if you go to the command palette and run
     "Haskell: Restart Haskell LSP Server" or "Developer: Reload Window."
+
+7. If Exercise 1 does not work, make sure that the installation location is
+   in PATH. There are various ways to view your PATH variable depending on machine; on Linux or MacOS, you can run `echo $PATH` in your terminal; on Windows, you can run `echo %PATH%`, and some machines also have a GUI for environment variables.
 
 7. If Exercise 2 does not work, try the following. Run
 
