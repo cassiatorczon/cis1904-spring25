@@ -97,6 +97,8 @@ We will use Visual Studio Code as our editor.
 1.  Install [VSCode](https://code.visualstudio.com/) by following the
     instructions on the homepage.
 
+    **Make sure Copilot is turned off.**
+
 2.  Within VSCode, install the extensions named `Haskell` and `haskell-linter`.
 
 3.  Open the command palette (`Ctrl-Shift-P` or `Cmd-Shift-P`) and go to
