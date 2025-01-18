@@ -34,31 +34,30 @@ The in-class exercises and homework assignments will be distributed via GitHub.
 3.  Clone your repo:
 
     ```
-    $ git clone git@github.com:YOURUSERNAME/YOURREPO.git
-    $ cd YOURREPO
+    git clone git@github.com:YOURUSERNAME/YOURREPO.git
+    cd YOURREPO
     ```
     You may get a warning about closing an empty repository. This is expected.
 
 4.  Connect to our class repo:
 
     ```
-    $ git remote add upstream https://github.com/cassiatorczon/cis1904-spring25.git
-    $ git fetch upstream
+    git remote add upstream https://github.com/cassiatorczon/cis1904-spring25.git
+    git fetch upstream
     ```
 
 5.  Merge the changes and push them back to GitHub:
-tack ghci Exercises.hs
     ```
-    $ git merge upstream/main
-    $ git push
+    git merge upstream/main
+    git push
     ```
 
 6.  Whenever there are changes to the class repo, get those changes locally,
     too:
 
     ```
-    $ git fetch upstream
-    $ git merge upstream/main
+    git fetch upstream
+    git merge upstream/main
     ```
 
     You will want to do this before each class and after each homework is
@@ -79,11 +78,11 @@ We will manage Haskell versions and packages using Stack.
 3. At this point, you should be able to run Haskell programs! (You may need to
    restart the terminal for the installation to take effect.)
 
-   Within the `week00/homework` directory, run this command to start the
+   Within the `week01/homework` directory, run this command to start the
    [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop):
 
    ```
-   $ stack ghci Exercises.hs
+   stack ghci Exercises.hs
    ```
 
    Then, input `main` and press enter — this evaluates `main`. It should print
@@ -126,7 +125,7 @@ We will use Visual Studio Code as our editor.
 4.  Open the `homework` folder for `week01` in VSCode.
 
     You must have this folder (`homework`) open — not a parent directory (such
-    as `week00`) or an individual file (such as `Exercises.hs`). The top label
+    as `week01`) or an individual file (such as `Exercises.hs`). The top label
     in the file explorer should be "homework", the folder with a .cabal file in it.
 
     **Important**: Please closely read the above instruction!
@@ -160,7 +159,7 @@ We will use Visual Studio Code as our editor.
 7. If Exercise 2 does not work, try the following. Run
 
     ```
-    $ stack install hlint
+    stack install hlint
     ```
 
     and take note of the message at the end saying where `hlint` was installed.
@@ -179,7 +178,7 @@ completing exercises, running tests, and submitting to Gradescope.
 1. Start GHCi with
 
    ```
-   $ stack ghci Exercises.hs
+   stack ghci Exercises.hs
    ```
 
    Run `main`. It should give the same message as before.
