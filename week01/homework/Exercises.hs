@@ -32,7 +32,7 @@ n :: Int
 n = undefined
 
 ntest :: Test
-ntest = n ~?= undefined
+ntest = n ~?= 1904
 
 main :: IO ()
 main = do
