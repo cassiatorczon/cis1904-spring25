@@ -26,13 +26,13 @@ linter :: Int
 linter = (3 + 4)
 
 {-
-Exercise 3: Replace undefined with 1940.
+Exercise 3: Replace undefined with 1904.
 -}
 n :: Int
 n = undefined
 
 ntest :: Test
-ntest = n ~?= 1940
+ntest = n ~?= undefined
 
 main :: IO ()
 main = do
