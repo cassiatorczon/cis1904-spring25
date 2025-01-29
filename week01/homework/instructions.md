@@ -6,7 +6,7 @@ detail — just follow the steps and check that your programming environment
 responds as expected. Please come to office hours or post on Ed if you run into
 issues.
 
-**Due Date**: Wednesday, Jan. 22 at 11:59 p.m.
+**Due**: Wednesday, Jan. 22 at 11:59 p.m.
 
 ## Installation
 

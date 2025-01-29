@@ -13,6 +13,7 @@ that appears when you hover. Comment out the code again when you've confirmed.
 Exercise 1: Remove the comments that say [ORMOLU_DISABLE] and [ORMOLU_ENABLE].
 When you save the file, the extra spaces before the 3 should disappear.
 -}
+
 {- ORMOLU_DISABLE -}
 format :: Int
 format =       3
