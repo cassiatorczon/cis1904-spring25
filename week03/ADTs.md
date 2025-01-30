@@ -3,51 +3,54 @@
 ## Enumeration types
 
 Like many programming languages, Haskell allows programmers to create
-their own _enumeration types_. Here's a simple example:
+their own _enumeration types_. Here's a simple example,
+enumerating the lines in the SEPTA Metro system:
 
 ```Haskell
-data Thing
-  = Shoe
-  | Ship
-  | SealingWax
-  | Cabbage
-  | King
+data MetroLine
+  = B
+  | L
+  | G
+  | D
+  | M
+  | T
   deriving (Show)
 ```
 
-This declares a new type called `Thing` with five _data constructors_
-`Shoe`, `Ship`, etc. which are the (only) values of type `Thing`.
+This declares a new type called `MetroLine` with six _data constructors_
+`L`, `B`, `G`, etc, which are the (only) values of type `MetroLine`.
 
 (The `deriving Show` tells GHC to automatically generate code to convert
-`Thing`s to `String`s, which allows GHCi to print `Thing`s.)
+`MetroLine`s to `String`s, which allows GHCi to print `MetroLine`s.)
 
 ```Haskell
-shoe :: Thing
-shoe = Shoe
+subwaySurfaceTrolley :: MetroLine
+subwaySurfaceTrolley = T
 
-listO'Things :: [Thing]
-listO'Things = [Shoe, King, Cabbage, King]
+listOfLines :: [MetroLine]
+listOfLines = [B, L, T, T]
 ```
 
-We can write functions on `Thing`s by pattern matching.
+We can write functions on `MetroLine`s by pattern matching.
 
 ```Haskell
-isSmall :: Thing -> Bool
-isSmall Shoe = True
-isSmall Ship = False
-isSmall SealingWax = True
-isSmall Cabbage = True
-isSmall King = False
+isTrolley :: MetroLine -> Bool
+isTrolley B = False
+isTrolley L = False
+isTrolley G = True
+isTrolley D = False
+isTrolley M = False
+isTrolley T = True
 ```
 
 Recalling how function clauses are tried in order from top to bottom,
-we could also make the definition of `isSmall` a bit shorter:
+we could also make the definition of `isTrolley` a bit shorter:
 
 ```Haskell
-isSmall' :: Thing -> Bool
-isSmall' Ship = False
-isSmall' King = False
-isSmall' _ = True
+isTrolley' :: MetroLine -> Bool
+isTrolley' G = True
+isTrolley' T = True
+isTrolley' _ = False
 ```
 
 ## Beyond enumerations
@@ -96,22 +99,22 @@ failureToZero (OK d) = d
 Data constructors can have more than one argument.
 
 ```Haskell
--- Store a person's name, age, and favorite Thing.
-data Person = Person String Int Thing
+-- Store a line, station name, and whether there is a transfer there.
+data MetroStop = MetroStop MetroLine String Bool
   deriving (Show)
 
-brent :: Person
-brent = Person "Brent" 31 SealingWax
+house :: MetroStop
+house = MetroStop B "60th St" False
 
-stan :: Person
-stan = Person "Stan" 94 Cabbage
+work :: MetroStop
+work = MetroStop T "15th St" True
 
-getAge :: Person -> Int
-getAge (Person _ a _) = a
+hasTransfer :: MetroStop -> Bool
+hasTransfer (MetroStop _ _ b) = b
 ```
 
-The type constructor and data constructor are both named
-`Person`, but they inhabit different namespaces and are different
+The type and data constructor are both named
+`MetroStop`, but they inhabit different namespaces and are different
 things. This is a common idiom for one-constructor data types.
 
 ## Algebraic data types in general
@@ -169,27 +172,27 @@ to note.
    being matched. For example:
 
     ```Haskell
-    displayPerson :: Person -> String
-    displayPerson p@(Person n _ _) = "The name field of (" ++ show p ++ ") is " ++ n
+    displayStopName :: MetroStop -> String
+    displayStopName s@(MetroStop _ n _) = "The name field of (" ++ show s ++ ") is " ++ n
     ```
 
 3. Patterns can be _nested_. For example:
 
     ```Haskell
-    lovesCabbage :: Person -> Bool
-    lovesCabbage (Person _ _ Cabbage) = True
-    lovesCabbage _ = False
+    isT :: MetroStop -> Bool
+    isT (MetroStop T _ _) = True
+    isT _ = False
     ```
 
-    That is, we nested the pattern `Cabbage` inside the pattern for `Person`.
+    That is, we nested the pattern `T` inside the pattern for `MetroStop`.
 
 4. Literal values like `2` or `'c'` can be used in pattern matching
    as if they were constructors with no arguments. For example:
 
     ```Haskell
-    isSeventeen :: Person -> Bool
-    isSeventeen (Person _ 17 _) = True
-    isSeventeen _ = False
+    is15th :: MetroStop -> Bool
+    is15th (MetroStop _ "15th St" _) = True
+    is15th _ = False
     ```
 
 ## Case expressions
