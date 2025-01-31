@@ -1,0 +1,5 @@
+- ignore: { name: "Use foldl" }
+- ignore: { name: "Use foldr" }
+- ignore: { name: "Eta reduce" }
+- ignore: { name: "Use map" }
+- ignore: { name: "Avoid lambda" }
