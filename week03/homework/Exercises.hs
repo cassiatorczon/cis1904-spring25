@@ -54,7 +54,7 @@ data Instr
   = IPush Nat
   | IAdd
   | IBranch
-  deriving (Show)
+  deriving (Show, Eq)
 
 type Stack = [Nat]
 
@@ -87,7 +87,29 @@ exercise4 =
 -- Exercise 5:
 
 compile :: Exp -> [Instr]
-compile = error "unimplemented"
+compile e = case e of
+  Num n -> error "unimplemented"
+  Add e1 e2 ->
+    is2 ++ is1 ++ [IAdd]
+    where
+      is1 = compile e1
+      is2 = compile e2
+  Branch e1 e2 e3 -> error "unimplemented"
+
+exercise5 :: Test
+exercise5 =
+  "compile"
+    ~: [ exec (compile (Num three)) [] ~?= [three],
+         exec (compile (Add (Num one) (Add (Num two) (Num three)))) [] ~?= [six],
+         exec (compile (Branch (Num zero) (Num one) (Num two))) [] ~?= [one],
+         exec (compile (Branch (Num one) (Num one) (Num two))) [] ~?= [two],
+         exec
+           ( compile
+               (Branch (Add (Num one) (Num zero)) (Num zero) (Num three))
+           )
+           []
+           ~?= [three]
+       ]
 
 {-
 Write down the number of hours it took you to complete this homework. Please
@@ -120,6 +142,7 @@ main = do
           exercise2,
           exercise3,
           exercise4,
+          exercise5,
           check
         ]
   return ()

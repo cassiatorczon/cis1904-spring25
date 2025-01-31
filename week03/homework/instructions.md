@@ -38,8 +38,8 @@ Given an arbitrary `Exp`, we want to evaluate it to a `Nat`. In particular,
 
 -   `Num n` should evaluate to `n`.
 
--   `Add e1 e2` should evaluate to the sum (using Haskell addition)
-      of the evaluation of `e1` and `e2`.
+-   `Add e1 e2` should evaluate to the sum
+    (using your `add` function) of the evaluation of `e1` and `e2`.
 
 -   For `Branch e1 e2 e3`, there are two cases.
 
@@ -47,6 +47,8 @@ Given an arbitrary `Exp`, we want to evaluate it to a `Nat`. In particular,
     expression as a whole should evaluate to the same thing as `e2`.
 
     And if `e1` is non-zero, we should take the second branch.
+
+    Hint: handle the branching logic using pattern matching, not `if`.
 
 Fill in the `eval` function according to the above specification.
 
@@ -84,8 +86,9 @@ Instructions manipulate the stack. In particular,
 - `IAdd` says to pop the first two numbers off the stack, add them, and push the
   result onto the stack.
 
-- `IBranch` says to pop the first three numbers `n1`, `n2`, `n3` off the stack,
+- `IBranch` says to pop the first three numbes `n1`, `n2`, `n3` off the stack,
   If `n1` is zero, push `n2` onto the stack; otherwise, push `n3`.
+  Hint: again, your solution should not use `if`.
 
 If an instruction cannot be executed (i.e., the stack does not have enough
 numbers), we simply ignore it and return the stack untouched.
@@ -96,8 +99,11 @@ above specification.
 ## Exercise 4
 
 Using the previously defined `exec1`, fill in the `exec` function to execute a
-list of instructions. The output stack of the previous instruction should be
+list of instructions. (If the list is empty, just return the stack.)
+The output stack of the previous instruction should be
 passed as the input stack of the next instruction.
+
+Hint: again, the solution should have just two cases.
 
 ## Exercise 5
 
@@ -119,14 +125,29 @@ For example, we should have
 exec (compile (Add (Add (Num one) (Num two)) (Num three))) [] = [six]
 ```
 
-Fill in the `compile` function to translate `Exp`s into lists of `Instr`s.
+Let's consider this one case at a time.
+
+For `Num n`, what instruction(s), when executed with starting stack `[]`,
+will result in the stack `[n]`?
+
+For `Add e1 e2`, we have filled in the solution for you.
+(`++` is notation for list append, and `where` is similar to `let` in OCaml.)
+Notice the order of the subterms being appended!
+
+Addition is commutative, so in this case the tests would have passed even if
+we had done `is1` before `is2`, but think about why we put them in this order.
+(You may find it helpful to see what the above example compiles to and execute
+it one instruction at a time using `exec1`.)
+
+Fill in the rest of the `compile` function to translate `Exp`s into lists
+of `Instr`s.
 
 ## Grading
 
 As before, we will grade this using tests beyond just the ones provided here.
 There will also be style points, which will mostly focus on pattern matching.
-You are welcome to use any of the pattern matching styles we used in class,
-but avoid redundant cases (see hint for Exercise 1.)
+You are welcome to use any of the pattern matching styles shown in class,
+but pay attention to the provided hints.
 
 ## Source
 
