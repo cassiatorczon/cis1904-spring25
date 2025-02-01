@@ -1,8 +1,15 @@
 # Recursion Patterns
 
-So far, we have written a lot of explicitly recursive functions, especially when using lists. But in fact, experienced Haskell programmers hardly ever write recursive functions!
+So far, we have seen several recursive functions, especially with lists.
+However, experienced Haskell programmers often avoid directly writing
+recursive functions in their code.
 
-How is this possible? The key is to notice that there are certain common patterns that come up over and over again. By abstracting these patterns out into library functions, programmers can leave the low-level details of actually doing recursion to these functions and instead focus on high-level, wholemeal programming.
+How is this possible? The key is to notice that there are certain common
+patterns that come up over and over again. By abstracting these patterns out
+into library functions, programmers can leave the low-level details of actually
+doing recursion to these functions and instead focus on high-level, wholemeal
+programming. This can help keep code readable, improve modularity, and avoid
+minor implementation errors.
 
 ## Map
 
@@ -30,16 +37,19 @@ add3All [] = []
 add3All (x : xs) = x + 3 : add3All xs
 ```
 
-These functions look suspiciously similar! In fact, the only thing that differs is the operation to compute the individual elements. Consider our first attempt at a `map` function:
+These functions look suspiciously similar! In fact, the only thing that differs
+is the operation applied to the individual elements. Consider our first attempt
+at a `map` function:
 
 ```Haskell
--- Attempt 1: 
+-- Attempt 1:
 map :: (Int -> Int) -> [Int] -> [Int]
 map _ [] = []
 map f (x : xs) = f x : map f xs
 ```
 
-Observe that `map` takes a function as a parameter. In Haskell, functions are _first class_, so they can be passed around just like any other type of data.
+Observe that `map` takes a function as a parameter. In Haskell, functions are
+_first class_, so they can be passed around just like any other type of data.
 
 Using `map`, we can now write
 
@@ -54,29 +64,44 @@ add3All :: [Int] -> [Int]
 add3All xs = map (+ 3) xs
 ```
 
-The function we pass into `map` can either be named, such as `abs`, or _anonymous_, such as `(\x -> x * x)`. 
-The third example uses an _operator section_. If `?` is an operator, then `(? y)` is equivalent to the function `\x -> x ? y`, and `(y ?)` is equivalent to `\x -> y ? x`.
+The function we pass into `map` can either be named, such as `abs`, or
+_anonymous_, such as `(\x -> x * x)`, the counterpart to `fun x -> x * x` in
+OCaml. For historical reasons (look up the lambda calculus if you're curious!),
+we read the backslash as "lambda".
 
-There's no reason to restrict ourselves to integer lists. Mapping over lists of other types, like booleans or strings, would result in exactly the same code. In fact, the only difference would be the type signature. 
+The third example uses an _operator section_. If `?` is an operator, then
+`(? y)` is equivalent to the function `\x -> x ? y`, and `(y ?)` is equivalent
+to `\x -> y ? x`.
 
-Thankfully, Haskell supports _polymorphism_. The word "polymorphic" comes from Greek and means "having many forms": something which is polymorphic works for multiple types. Consider this more general type signature:
+There's no reason to restrict ourselves to integer lists. Mapping over lists of
+other types, like booleans or strings, would look the same. In fact, the only
+difference to the definition of `map` would be the type signature.
+
+Thankfully, Haskell supports _polymorphism_. The word "polymorphic" comes from
+Greek and means "having many forms": something which is polymorphic works for
+multiple types. Consider this more general type signature:
 
 ```Haskell
--- Attempt 2: 
+-- Attempt 2:
 map :: (a -> a) -> [a] -> [a]
 ```
 
 Here, `a` is a _type variable_, which can stand for any type.
 
-We have made good progress, but we still have the restriction that we always get a list with the same type of elements as the starting list. To loosen this restriction, we need a second type variable:
+We have made good progress, but we still have the restriction that we always
+get a list with the same type of elements as the starting list. What if we want
+to map with a function that returns a different type than its input?
+To do this, we need a second type variable:
 
 ```Haskell
 map :: (a -> b) -> [a] -> [b]
 ```
 
-This says, for any types `a` and `b`, `map` takes in a function from `a` to `b` and a list of `a`s as input and returns a list of `b`s as output. 
+This says, for any types `a` and `b`, `map` takes in a function from `a` to `b`
+and a list of `a`s as input and returns a list of `b`s as output.
 
-With this final version, we can use `map` to, for example, round decimal numbers to integers:
+With this final version, we can use `map` to, for example, round decimal
+numbers to integers:
 
 ```Haskell
 roundAll :: [Double] -> [Int]
@@ -85,17 +110,19 @@ roundAll xs = map round xs
 
 ## Filter
 
-Another common pattern is when we want to keep some elements of a list and throw others away, based on a test. For example, we might want to keep only the uppercase characters:
+Frequently we want to filter a list, i.e., keep some of its elements and throw
+the rest away, based on a test. For example, we might want to keep only the
+uppercase characters in a `String` (i.e., a `[Char]`):
 
 ```Haskell
 upperOnly :: [Char] -> [Char]
 upperOnly [] = []
 upperOnly (x : xs)
-  | isUpper x = x : upperOnly xs 
+  | isUpper x = x : upperOnly xs
   | otherwise = upperOnly xs
 ```
 
-Or only the positive numbers:
+Or only the positive numbers in a list of integers:
 
 ```Haskell
 positiveOnly :: [Int] -> [Int]
@@ -125,9 +152,13 @@ positiveOnly :: [Int] -> [Int]
 positiveOnly xs = filter (> 0) xs
 ```
 
+Notice how this is both more concise and self-documenting; the name `filter`
+makes it easy to understand what this code is doing.
+
 ## Fold
 
-The third pattern we will talk about is combining the elements of a list into a final answer. Consider these examples:
+Finally, sometimes we want to combine all the elements of a list in some way.
+Consider these examples:
 
 ```Haskell
 sum :: [Int] -> Int
@@ -143,7 +174,7 @@ length [] = 0
 length (_ : xs) = 1 + length xs
 ```
 
-We can define an extremely powerful `fold` function: 
+For these, we can use the `fold` function:
 
 ```Haskell
 fold :: (a -> b -> b) -> b -> [a] -> b
@@ -151,7 +182,7 @@ fold f z [] = z
 fold f z (x : xs) = f x (fold f z xs)
 ```
 
-This allows us to write
+We can now rewrite our examples.
 
 ```Haskell
 sum :: [Int] -> Int
@@ -164,10 +195,93 @@ length :: [a] -> Int
 length xs = fold (\_ l -> 1 + l) 0 xs
 ```
 
-We will discuss the intuition behind `fold` in a lot more detail during class. For now, observe that `fold` essentially replaces `[]` with `z` and `(:)` with `f`. That is,
+`fold` traverses the list element by element, maintaining an _accumulator_ that
+records the result so far. The first argument to `fold` describes how the next
+element of the list at any given point should be combined with the accumulator.
+The second argument gives the starting value for the accumulator.
+
+There are two basic versions of `fold`: `foldr` and `foldl`.
+(The definition shown above is actually `foldr`.)
+The `r` and `l` stand for right- and left-associative.
 
 ```Haskell
-fold f z (a : b : c : []) == a `f` (b `f` (c `f` z))
+foldr f z [a,b,c] == f a (f b (f c z))
+
+foldl f z [a,b,c] == f (f (f z a) b) c
 ```
 
-The `fold` we have defined here is actually named `foldr` in Haskell, to distinguish it from `foldl`. We will discuss the difference in class!
+For non-associative functions or non-commutative functions, such as subtraction
+(non-associative, non-commutative), binary averaging
+(commutative, non-associative), or `append` (associative, non-commutative),
+these are conceptually very different.
+For example:
+
+```Haskell
+foldr (-) 0 [1,1,1] == 1
+foldl (-) 0 [1,1,1] == -3
+
+foldr (\x y -> (x + y) / 2) 0 [8,4,16] == 7
+foldl (\x y -> (x + y) / 2) 0 [8,4,16] == 10
+
+foldr (++) "z" ["a","b","c"] == "abcz"
+foldl (++) "z" ["a","b","c"] == "zabc"
+```
+
+For functions that are associative and commutative, such as `+`, we have a
+choice of which to use. In Haskell, we primarily use `foldr` in this scenario.
+
+If you are used to imperative code, this might feel backward!
+The equivalent definition `foldr` of in imperative pseudocode would be
+something like:
+
+```
+foldr(f,z,lst) =
+  acc = z;
+  for (i = len(lst) - 1; i >= 0; i--):
+    acc = f(lst[i],z)
+  return acc
+```
+
+compared to `foldl`:
+
+```
+foldr(f,z,lst) =
+  acc = z;
+  for (i = 0; i < len(lst); i++):
+    acc = f(z,lst[i])
+  return acc
+```
+
+Notice the order of the iteration. Why do we do prefer `foldr` in Haskell?
+
+Consider our earlier `fold` example.
+
+```Haskell
+foldr f z [a,b,c] == f a (f b (f c z))
+
+foldl f z [a,b,c] == f (f (f z a) b) c
+```
+
+Observe that `foldr` naturally mirrors the structure of the list:
+`Cons a (Cons b (Cons c []))` becomes `f a (f b (f c z))`.
+It follows the natural way we destruct lists in Haskell, combining
+the head with the result of recursively operating on the tail.
+
+This is a great example of how the fundamental data structues of
+functional code lead to different idioms than those used in other
+programming paradigms!
+
+`foldr` also allows for short-circuiting in a way that is not possible
+with `foldl`. In some cases, we can even use `foldr` with infinite lists!
+We will talk more about this in the laziness lecture.
+
+One final note: `foldr` and `foldl` can both run into space complexity issues.
+(While `foldl` looks tail recursive, Haskell's lazy evaluation strategy means
+that it is actually often less space efficient than `foldr`.)
+To manage this, Haskell provides a third option: `foldl'`.
+This conceptually behaves the same as `foldl` but also carefully manages which
+parts of the computation evaluate when. In nearly all situations where you might
+use `foldl`, `foldl'` is the better choice.
+
+If you'd like to learn more about the distinction, a helpful discussion
+can be found here: https://wiki.haskell.org/Foldr_Foldl_Foldl'.
