@@ -86,7 +86,7 @@ Instructions manipulate the stack. In particular,
 - `IAdd` says to pop the first two numbers off the stack, add them, and push the
   result onto the stack.
 
-- `IBranch` says to pop the first three numbes `n1`, `n2`, `n3` off the stack,
+- `IBranch` says to pop the first three numbers `n1`, `n2`, `n3` off the stack,
   If `n1` is zero, push `n2` onto the stack; otherwise, push `n3`.
   Hint: again, your solution should not use `if`.
 
