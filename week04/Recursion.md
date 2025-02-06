@@ -285,3 +285,5 @@ use `foldl`, `foldl'` is the better choice.
 
 If you'd like to learn more about the distinction, a helpful discussion
 can be found here: https://wiki.haskell.org/Foldr_Foldl_Foldl'.
+(If you click this link directly, it may not include the final ' depending on
+your editor. If the link seems to be broken, make sure the ' is there.)
