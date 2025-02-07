@@ -81,6 +81,9 @@ exercise1b =
 
 squarify :: [[a]] -> [[a]]
 squarify = error "unimplemented"
+  where
+    dim :: Int
+    dim = error "unimplemented"
 
 {-
   type you searched for (type of a function that returns the first `n` elements
