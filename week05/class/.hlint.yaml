@@ -1,0 +1,8 @@
+- ignore: { name: "Eta reduce" }
+- ignore: { name: "Avoid lambda" }
+- ignore: { name: "Avoid lambda using `infix`" }
+- ignore: { name: "Use map" }
+- ignore: { name: "Use and" }
+- ignore: { name: "Use sum" }
+- ignore: { name: "Avoid reverse" }
+- ignore: { name: "Use odd" }

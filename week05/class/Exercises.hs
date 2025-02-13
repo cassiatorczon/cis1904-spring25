@@ -30,7 +30,7 @@ absAll' xs = map abs xs
 notAll :: [Bool] -> [Bool]
 notAll = error "unimplemented"
 
--- Use infix operators directly too
+-- Use infix operators directly too (with parens)
 
 -- Instead of this
 sum :: [Int] -> Int
@@ -81,7 +81,7 @@ evenOdds' :: [Int] -> Bool
 evenOdds' = even . length . oddOnly
 
 -- Exercise: count the number of odd numbers in a list and convert the result
--- to a string (use `show` and `oddOnly'`)
+-- to a string (use `oddOnly'`, `show`, and `length`)
 showNumOdds :: [Int] -> String
 showNumOdds = error "unimplemented"
 
@@ -90,13 +90,13 @@ showNumOdds = error "unimplemented"
 -- #3 Leverage partial application.
 
 -- Use partial application to eta reduce
--- (i.e., avoid unnecessarily writing the argument on both sides)
+-- (i.e., avoid unnecessarily writing final arguments on both sides)
 
 -- Like this (instead of `absAll'`)
 absAll'' :: [Int] -> [Int]
 absAll'' = map abs
 
--- Exercise: Implement `and` again, still using `&&`, but eta reduced this time
+-- Exercise: implement `and` again, still using `&&`, but eta reduced this time
 and' :: [Bool] -> Bool
 and' = error "unimplemented"
 
@@ -119,6 +119,8 @@ greaterThan100 = error "unimplemented"
 -- Combining all of these
 
 -- Exercise: reimplement these functions from last class using these principles
+-- Hint: in each there will be some principles that cannot be applied here
+
 map' :: (a -> b) -> [a] -> [b]
 map' f xs = foldr (\x acc -> f x : acc) [] xs
 
@@ -132,7 +134,7 @@ studentIDs' :: [Member] -> [Int]
 studentIDs' = error "unimplemented"
 
 {-- Tests --}
--- notAll, and, wordcounts, shownumodds, and', greaterthan100, studentIDs'
+
 testNotAll :: Test
 testNotAll =
   "notAll"
