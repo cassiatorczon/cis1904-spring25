@@ -74,7 +74,7 @@ to be comprehensive. You may use `func` in your test for comparison. )
 
 ## Grading
 
-This homework is largely manually graded due to the nature of
+This homework has a significant manually graded component due to the nature of
 the exercises. If you would like to check your answers, we can provide feedback
 in office hours, and you can optionally choose to revise and resubmit.
 (The usual deadline still applies to resubmissions.)

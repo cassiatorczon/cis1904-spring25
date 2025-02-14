@@ -36,8 +36,8 @@ bigEnough n = filter (\x -> abs x >= n)
 testBigEnough :: Test
 testBigEnough =
   "bigEnough"
-    ~: [ bigEnough 0 [0, -1, 5] ~?= [0, 5],
-         bigEnough 100 [-500, 1, 6] ~?= [],
+    ~: [ bigEnough 0 [0, -1, 5] ~?= [0, -1, 5],
+         bigEnough 100 [-50, 1, 6] ~?= [],
          bigEnough 1 [] ~?= []
        ]
 
