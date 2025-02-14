@@ -20,10 +20,26 @@ or2 xs = foldr (\x acc -> x || acc) False xs
 -- Exercise 1
 
 any :: (a -> Bool) -> [a] -> Bool
-any = error "unimplemented"
+any f xs = or (map f xs)
+
+testAny :: Test
+testAny =
+  "any"
+    ~: [ any even [1, 7, 3] ~?= False,
+         any (> 4) [] ~?= False,
+         any (/= 'c') "cccac" ~?= True
+       ]
 
 bigEnough :: Int -> [Int] -> [Int]
-bigEnough = error "unimplemented"
+bigEnough n = filter (\x -> abs x >= n)
+
+testBigEnough :: Test
+testBigEnough =
+  "bigEnough"
+    ~: [ bigEnough 0 [0, -1, 5] ~?= [0, 5],
+         bigEnough 100 [-500, 1, 6] ~?= [],
+         bigEnough 1 [] ~?= []
+       ]
 
 -- Exercise 2:
 
@@ -98,7 +114,9 @@ main = do
   _ <-
     runTestTT $
       TestList
-        [ testConcat,
+        [ testAny,
+          testBigEnough,
+          testConcat,
           testConcatMap,
           testFunc1,
           testFunc2,
