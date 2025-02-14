@@ -1,0 +1,5 @@
+# Do NOT remove these
+- ignore: { name: "Evaluate" }
+- ignore: { name: "Use concat" }
+- ignore: { name: "Use or" }
+- ignore: { name: "Use map" }

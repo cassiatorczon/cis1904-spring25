@@ -20,18 +20,18 @@ or2 xs = foldr (\x acc -> x || acc) False xs
 -- Exercise 1
 
 any :: (a -> Bool) -> [a] -> Bool
-any f xs = or (map f xs)
+any = error "unimplemented"
 
 bigEnough :: Int -> [Int] -> [Int]
-bigEnough n = filter (\x -> abs x >= n)
+bigEnough = error "unimplemented"
 
 -- Exercise 2:
 
 concat :: [[a]] -> [a]
 concat = error "unimplemented"
 
-exercise2a :: Test
-exercise2a =
+testConcat :: Test
+testConcat =
   "concat"
     ~: [ concat [] ~?= ([] :: [()]),
          concat [[1]] ~?= [1],
@@ -41,8 +41,8 @@ exercise2a =
 concatMap :: (a -> [b]) -> [a] -> [b]
 concatMap = error "unimplemented"
 
-exercise2b :: Test
-exercise2b =
+testConcatMap :: Test
+testConcatMap =
   "concatMap"
     ~: [ concatMap f [] ~?= [],
          concatMap f [1] ~?= [1, 1],
@@ -62,6 +62,12 @@ func (x : xs)
 
 func' :: [Int] -> Int
 func' = error "unimplemented"
+
+testFunc1 :: Test
+testFunc1 = error "unimplemented"
+
+testFunc2 :: Test
+testFunc2 = error "unimplemented"
 
 ---- end of exercises ----
 
@@ -92,8 +98,10 @@ main = do
   _ <-
     runTestTT $
       TestList
-        [ exercise2a,
-          exercise2b,
+        [ testConcat,
+          testConcatMap,
+          testFunc1,
+          testFunc2,
           check
         ]
   return ()
