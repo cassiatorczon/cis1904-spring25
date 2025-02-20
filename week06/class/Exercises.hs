@@ -6,12 +6,12 @@ import Test.HUnit (Test (TestList), runTestTT, (~:), (~?=))
 
 data Stream a = Cons a (Stream a)
 
--- Output the first n elements of a stream as a list
+{- Output the first n elements of a stream as a list. For negative n, return
+    the empty list -}
 streamTake :: Int -> Stream a -> [a]
 streamTake = error "unimplemented"
 
--- streamGenerate f a should return a, f a, f (f a), ...
-
+{- streamGenerate f a should return a, f a, f (f a), f (f (f a)), ... -}
 streamGenerate :: (a -> a) -> a -> Stream a
 streamGenerate = error "unimplemented"
 
@@ -26,18 +26,7 @@ testStreamGenerate =
            ~?= [1, 2, 4, 8, 16]
        ]
 
--- Using streamGenerate, construct the sequence of all factorials
-
-facts :: Stream Int
-facts = error "unimplemented"
-
-testFacts :: Test
-testFacts =
-  "facts"
-    ~: streamTake 5 facts
-    ~?= [1, 1, 2, 6, 24]
-
--- and of all nats
+{- Using streamGenerate, construct the sequence of all natural numbers -}
 nats :: Stream Integer
 nats = error "unimplemented"
 
@@ -56,17 +45,16 @@ streamToList = error "unimplemented"
 testStreamToList :: Test
 testStreamToList =
   "streamToList"
-    ~: [ "facts" ~: (take 3 . streamToList) facts ~?= [1, 1, 2],
-         "nats" ~: (take 3 . streamToList) nats ~?= [1, 2, 3]
+    ~: [ "nats" ~: (take 3 . streamToList) nats ~?= [0, 1, 2]
        ]
 
+main :: IO ()
 main = do
   _ <-
     runTestTT $
       TestList
         [ testStreamToList,
           testStreamGenerate,
-          testFacts,
           testNats
         ]
   return ()
