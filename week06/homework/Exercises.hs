@@ -61,6 +61,7 @@ testFibs =
     Hint:
          fibs = [0, 1, 1, 2, ...]
     tail fibs = [1, 1, 2, 3, ...]
+
     What happens if we use zipWith to add these two together?
     Fill in the function below.
 
@@ -93,7 +94,8 @@ testFibs' =
     library functions for it in class; we will write a few more here. -}
 data Stream a = Cons a (Stream a)
 
-{- Create a Stream of one value repeated infinitely. -}
+{- Create a Stream of one value repeated infinitely. Direct recursion is
+    fine here. -}
 streamRepeat :: a -> Stream a
 streamRepeat = error "unimplemented"
 
@@ -118,7 +120,7 @@ testStreamFromList =
          "all" ~: (streamTake 3 . streamFromList 0) [4, 2, 6] ~?= [4, 2, 6]
        ]
 
-{- map, but for Streams -}
+{- map, but for Streams. A directly recursive definition is fine here. -}
 streamMap :: (a -> b) -> Stream a -> Stream b
 streamMap = error "unimplemented"
 
@@ -133,8 +135,9 @@ testStreamMap =
            ~?= "cccccccccc"
        ]
 
-{- Finally, reimplement fibs' for streams. Hint: make a version of tail for
-    Streams as a helper function. Note that in this case it is not partial! -}
+{- Finally, reimplement fibs' for Streams. Hint: make a version of tail and
+    zipWith for Streams as helper functions. Note that in this case tail is not
+    partial! -}
 fibs'' :: Stream Integer
 fibs'' = error "unimplemented"
 
