@@ -11,7 +11,8 @@ data Stream a = Cons a (Stream a)
 streamTake :: Int -> Stream a -> [a]
 streamTake = error "unimplemented"
 
-{- streamGenerate f a should return a, f a, f (f a), f (f (f a)), ... -}
+{- streamGenerate f x should return the stream containing
+    x, f x, f (f x), f (f (f x)), ... -}
 streamGenerate :: (a -> a) -> a -> Stream a
 streamGenerate = error "unimplemented"
 
