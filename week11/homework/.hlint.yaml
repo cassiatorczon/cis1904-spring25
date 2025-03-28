@@ -1,0 +1,3 @@
+- ignore: { name: "Use putStr" }
+- ignore: { name: "Use putStrLn" }
+- ignore: { name: "Use <$>" }

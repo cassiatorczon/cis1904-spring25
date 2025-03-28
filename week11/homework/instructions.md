@@ -14,9 +14,11 @@ Try using `readFile` and `writeFile` a bit. Figure out if the following
 statements are true or false, and fill in the corresponding variable
 in `Exercises.hs`.
 
-1. `readFile` will error out if given a file name that does not exist.
+1. `readFile` will throw an exception if given the name of a file that does
+   not exist.
 
-2. `writeFile` will error out if given a file name that does not exist.
+2. `writeFile` will throw an exception if given the name of a file that does
+   not exist.
 
 3. `writeFile` will overwrite the contents of an existing file.
 
