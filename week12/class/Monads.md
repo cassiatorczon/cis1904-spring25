@@ -3,8 +3,8 @@
 ## Motivation
 
 The concept of monad started its life as an abstract bit of mathematics, and it
-so happened that functional programmers stumbled upon it as a useful programming
-construct for modelling _side effects_.
+so happened that functional programmers stumbled upon it as a useful
+programming construct for modelling _side effects_.
 
 A monad is handy whenever a programmer wants to sequence _actions_, or
 effectful code. The details of the monad say exactly how the actions should be
