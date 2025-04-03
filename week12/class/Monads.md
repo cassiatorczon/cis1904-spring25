@@ -2,17 +2,20 @@
 
 ## Motivation
 
-The concept of monad started its life as an abstract bit of mathematics, and it
-so happened that functional programmers stumbled upon it as a useful
-programming construct for modelling _side effects_.
+Monads are a construct that functional programmers have borrowed from
+_category theory_ to model side effects.
 
 A monad is handy whenever a programmer wants to sequence _actions_, or
-effectful code. The details of the monad say exactly how the actions should be
-sequenced.
+effectful code. In Haskell, monads are represented as a typeclass with two
+functions (and a third, but typically we omit this because the default
+implementation suffices). How those functions are defined determines how that
+effect gets sequenced.
 
-We’ve already (implicitly) learned about the `IO` monad, which models I/O.
-We’ll also see the `Maybe` and `List` monads, which model failure and
-nondeterminism, respectively.
+We’ve already (implicitly) learned about three monads: `Maybe`, `List`, and
+`IO`, which model program crashes, nondeterminism, and input/output. (Of
+course, lists have many uses beyond modelling nondeterminism; that is just how
+we think of them in the conceptual framework of effects). We will look more
+closely at their shared structure below.
 
 
 ## Monad
@@ -74,7 +77,10 @@ What about `return`? We saw with `IO` that this converts an expression into
 an instruction to create that expression. `return` is similar with other
 monads: it takes an expression and makes an "effectful" version of it.
 That is, it tells us how to view that expression within our model of a given
-effect.
+effect. (Note: a common pitfall is thinking of `return` like a return
+statement in other languages; it is actually just an expression that can
+go anywhere within a computation and has nothing to do with exiting a
+function.)
 
 ## Examples
 
@@ -201,6 +207,14 @@ We can think of `ex4` as filtering `[1..20]` for even numbers divisible by 3.
 another type class that characterizes monads that have a possibility of
 failure. These include `Maybe` and `[]`.)
 
+In the `IO` unit, we said that everything within a `do` block must be an
+instruction, i.e., within the IO monad. (Note that not everything needs to
+be the same _type_: the type argument to `IO` can be different.) In general,
+it is important for everything in a `do` block to be within the _same_ monad;
+we cannot mix some lines in the `Maybe` monad with some lines in the `List`
+monad (though, as usual, we can have a list containing `Maybe`s or a `Maybe`
+containing a list).
+
 ## Monad combinators
 
 One nice thing about the Monad class is that, using only `return` and `(>>=)`,
@@ -216,10 +230,10 @@ means to run all the computations in sequence; and so on.
 ```Haskell
 sequence :: Monad m => [m a] -> m [a]
 sequence [] = return []
-sequence (ma : mas) =
-  ma >>= \a ->
-  sequence mas >>= \as ->
-  return (a : as)
+sequence (mx : mxs) =
+  mx >>= \x ->
+  sequence mxs >>= \xs ->
+  return (x : xs)
 ```
 
 We'll see several more examples of monad combinators in class and on the
@@ -273,21 +287,26 @@ There is a straightforward translation between list comprehensions and do
 notation:
 
 ```Haskell
-[a | b <- c, d, e, f <- g, h]
+[x | y <- ys, g1, g2, z <- zs, g3]
 ```
 
 is exactly equivalent to
 
 ```Haskell
 do
-  b <- c
-  guard d
-  guard e
-  f <- g
-  guard h
-  return a
+  y <- ys
+  guard g1
+  guard g2
+  z <- zs
+  guard g3
+  return x
 ```
 
 Note that, in the translation, lists aren’t mentioned anywhere! With the GHC
 language extension `MonadComprehensions`, you can use list comprehension
 notation for any monad.
+
+## Monad transformers
+These are beyond the scope of this class, but we can combine multiple monads
+into one using _monad transformers_. These are very useful for writing
+real-world Haskell.
