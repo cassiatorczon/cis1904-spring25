@@ -7,12 +7,10 @@ import Text.Parsec
     digit,
     many1,
     parse,
-    satisfy,
     spaces,
     (<|>),
   )
 import Text.Parsec.String (Parser)
-import Text.Read (readMaybe)
 
 -- Hint: the imports show some functions you will likely find useful
 
@@ -29,16 +27,17 @@ digitsP :: Parser String
 digitsP = error "unimplemented"
 
 -- parse input as a Num
--- for this class, after you've parsed the string into a string of
+-- for this class, AFTER you've parsed the string into a string of
 -- all digits, you may use `readNat` to coerce it to a Natural
 numP :: Parser Exp
 numP = error "unimplemented"
 
--- parse two sub-expressions and `+` between them
+-- parse two sub-expressions with `+` between them
 addP :: Parser Exp
 addP = error "unimplemented"
 
 -- parse balanced parens and apply the input parser between them
+-- Use `between`
 parenP :: Parser a -> Parser a
 parenP = error "unimplemented"
 
@@ -47,17 +46,21 @@ expP :: Parser Exp
 expP = error "unimplemented"
 
 -- Use the following to use GHCi as a mini calculator!
+-- Make sure to test an expression with nested expressions and an invalid
+-- input (this should show an error message instead of crashing entirely)
 
-eval :: Exp -> Natural
-eval (Num n) = n
-eval (Add e1 e2) = eval e1 + eval e2
-
+-- Note: re-run main each time you want to test a new input
+-- if you do not rerun `main`, GHCi will use its own parser
 main :: IO ()
 main = do
   input <- getLine
   case parse expP "" input of
     Left err -> print err
     Right exp -> print (eval exp)
+
+eval :: Exp -> Natural
+eval (Num n) = n
+eval (Add e1 e2) = eval e1 + eval e2
 
 -- some examples from lecture
 
